@@ -17,13 +17,16 @@ class Transaction
 
   # Indicates if this transaction happened today
   def is_today?
+    @at.strftime("%Y%m%d") == DateTime.now.strftime("%Y%m%d")
   end
 
   # Indicates if this transaction will happen in the future
   def future?
+    @at > DateTime.now
   end
 
   # Indicates if this transaction happened in the past
   def past?
+    @at < DateTime.now
   end
 end

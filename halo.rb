@@ -9,6 +9,7 @@ require "#{Dir.pwd}/model/account"
 require "#{Dir.pwd}/model/category"
 require "#{Dir.pwd}/model/transaction"
 require "#{Dir.pwd}/controller/status"
+require "#{Dir.pwd}/controller/user"
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/data.db")
@@ -25,7 +26,17 @@ enable :sessions
 use Rack::Flash, :sweep => true
 
 # The main application class
-class Halo < Sinatra::Base
+module Sinatra
+  module Halo
+
+    # Returns the user object assigned to the current session
+    def current_user
+      User.first(session[:user_id])
+    end
+
+  end
+
+  helpers Halo
 end
 
 get '/' do
