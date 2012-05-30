@@ -3,6 +3,7 @@ require 'haml'
 require 'sass'
 require 'rack-flash'
 require 'data_mapper'
+require 'json'
 
 require "#{Dir.pwd}/model/user"
 require "#{Dir.pwd}/model/account"
@@ -10,6 +11,9 @@ require "#{Dir.pwd}/model/category"
 require "#{Dir.pwd}/model/transaction"
 require "#{Dir.pwd}/controller/status"
 require "#{Dir.pwd}/controller/user"
+
+# API controller
+require "#{Dir.pwd}/controller/api"
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/data.db")
@@ -28,6 +32,13 @@ use Rack::Flash, :sweep => true
 # The main application class
 module Sinatra
   module Halo
+
+    def authenticate!(username, password)
+      user = User.find_user(username, password)
+
+      session[:user_id] = user.id unless user.nil?
+      logger.info "asdfsad"
+    end
 
     # Returns the user object assigned to the current session
     def current_user

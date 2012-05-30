@@ -10,9 +10,8 @@ end
 
 # Attempts to authenticate the current user and assign it to the current session
 post "/user/login" do
-  user = User.find_user(params[:username], params[:password])
+  user = authenticate!(params[:username], params[:password])
 
-  session[:user_id] = user.id unless user.nil?
 end
 
 get "/user/info" do
