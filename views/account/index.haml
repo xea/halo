@@ -1,0 +1,21 @@
+#cnt-account
+	.box-account
+		.box-title
+			Accounts
+		.box-body
+			%form{ :action => '/account/new', :method => :post }
+				%input{ :type => :text, :name => 'account_name' }
+				%input{ :type => :submit }
+			%table.accounts
+				%thead
+					%th
+						Számlanév
+					%th
+						Transzakciószám
+				%tbody		
+					- @accounts.each do |account|
+						%tr
+							%td
+								= account.name
+							%td
+								= account.transactions.length

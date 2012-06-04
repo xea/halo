@@ -1,0 +1,97 @@
+$background-color: #fafafa
+
+$box-width: 300px
+
+@mixin box
+	width: $box-width
+	margin: auto
+	box-shadow: 0 0 0 5px #f0f0f0
+
+	input[type='text'], input[type='password']
+		width: $box-width - 50px
+		height: 35px
+		width: 260px
+		font-size: 16px
+		padding-left: 10px
+		margin: 0 0 10px 15px
+		color: #555
+	label
+		color: #777
+		margin-left: 10px
+		font-size: 16px
+		display: inline-block
+body
+	padding: 0px
+	margin: 0px
+	background-color: $background-color
+	font-family: ubuntu-light
+	font-size: 24px
+
+input
+	border: 1px solid #f0f0f0
+
+.box-title
+	color: #666
+	margin-left: 5px
+
+.clearer
+	clear: both
+
+#application
+
+	#cnt-login
+
+		#box-login
+			@include box
+
+			position: fixed
+			top: 50%
+			left: 50%
+			margin-left: -($box-width / 2)
+			margin-top: -400px
+
+			.errors
+				background-color: #8C3B3B
+				width: 280px
+				margin-left: 10px
+				margin-top: 10px
+				color: #f0f0f0
+				font-size: 16px
+
+			.lower
+				background-color: #f0f0f0
+	#cnt-register
+
+		#box-register
+			@include box
+
+			position: fixed
+			top: 50%
+			left: 50%
+			margin-left: -($box-width / 2)
+			margin-top: -400px
+			
+			.errors
+				background-color: #8C3B3B
+				width: 280px
+				margin-left: 10px
+				margin-top: 10px
+				color: #f0f0f0
+				font-size: 16px
+			.lower
+				background-color: #f0f0f0
+	#cnt-transaction
+
+		#box-transaction
+			font-size: 16px
+
+			.transactions
+				border: 1px solid #f0f0f0
+				padding: 10px
+				.cat-food
+					border: 1px solid black
+					text-align: center
+				.amount
+					border-top: 4px solid #8C3B3B
+				.subtotal
+					border-top: 4px solid #AB6937
