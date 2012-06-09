@@ -1,12 +1,18 @@
-!!! XML
-!!! Strict
-%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
-	%head
-		%title
-			Login
-	%body
+#cnt-login
+	#box-login
 		%form{ :id => "loginform", :method => :post, :action => "/user/login" }
-			%input{ :id => "username", :name => "username", :type => :text }
-			%input{ :id => "password", :name => "password", :type => :password }
-			%input{ :type => :submit, :value => "ok" }
-
+			.box-title
+				Belépés
+			.box-body
+				.errors
+					= flash[:error]
+				%label{ :for => "username" }
+					Felhasználónév
+				%input{ :type => "text", :id => "username", :name => "username" }
+				%label{ :for => "password" }
+					Jelszó
+				%input{ :type => "password", :id=> "password", :name => "password" }
+				.clearer
+				.lower
+					%input{ :type => "submit", :id=>"submit_login", :value => 'Belépés' }
+				.clearer

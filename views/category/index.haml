@@ -1,0 +1,21 @@
+#cnt-account
+	.box-account
+		.box-title
+			Categories
+		.box-body
+			%form{ :action => '/category/new', :method => :post }
+				%input{ :type => :text, :name => 'category_name' }
+				%input{ :type => :submit }
+			%table.accounts
+				%thead
+					%th
+						Kategórianév
+					%th
+						Transzakciószám
+				%tbody		
+					- @categories.each do |category|
+						%tr
+							%td
+								= category.name
+							%td
+								= category.transactions.length

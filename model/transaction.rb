@@ -9,11 +9,14 @@ class Transaction
 
   # When was the transaction completed
   property :at, DateTime, :required => true, :default => DateTime.now
+  property :vendor, String
   property :comment, String
 
   property :enabled, Boolean, :required => true, :default => true
 
   belongs_to :category
+  belongs_to :account
+  belongs_to :user
 
   # Indicates if this transaction happened today
   def is_today?

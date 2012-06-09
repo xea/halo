@@ -1,1 +1,26 @@
-User registration
+#cnt-register
+	#box-register
+		%form{ :id => "form_registration", :method => :post, :action => "/user/register" }
+			.box-title
+				Regisztráció
+			.box-body
+				.errors
+					= flash[:error]
+				%label{ :for => "username" }
+					Felhasználónév
+				%input{ :type => "text", :id => "username", :name => "username" }
+
+				%label{ :for => "displayname" }
+					Megjelenítendő név
+				%input{ :type => "text", :id => "displayname", :name => "displayname" }
+
+				%label{ :for => "password" }
+					Jelszó
+				%input{ :type => "password", :id => "password", :name => "password" }
+
+				%label{ :for => "password_confirmation" }
+					Jelszó még egyszer
+				%input{ :type => "password", :id => "password_confirmation", :name => "password_confirmation" }
+
+				.lower
+					%input{ :type => "submit", :id=>"submit_registration", :value => 'Elküld' }

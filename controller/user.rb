@@ -3,6 +3,17 @@ get "/user/register" do
   haml :"user/register"
 end
 
+# Registers a new user
+post "/user/register" do
+	user = User.register(params[:username], params[:displayname], params[:password])
+
+	flash[:error] = user.errors.full_messages.join('<br/>') unless user.valid?
+
+	redirect to '/user/login' if user.valid?
+
+	haml :'user/register'
+end
+
 # Displays the user page
 get "/user/login" do
   haml :"user/login"
@@ -12,6 +23,18 @@ end
 post "/user/login" do
   user = authenticate!(params[:username], params[:password])
 
+  flash[:error] = "Authentication failed" unless authenticated?
+
+  redirect to '/' if authenticated?
+
+  haml :'/user/login'
+end
+
+# Logs out the current user
+get "/user/logout" do
+	invalidate_session
+
+	redirect to :"/user/login"
 end
 
 get "/user/info" do

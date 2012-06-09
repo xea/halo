@@ -10,4 +10,6 @@ class Category
   property :name, String
 
   has n, :transactions
+
+  belongs_to :user
 end
