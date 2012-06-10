@@ -34,6 +34,8 @@ end
 get "/user/logout" do
 	invalidate_session
 
+	flash[:notice] = "Successfully logged out"
+
 	redirect to :"/user/login"
 end
 

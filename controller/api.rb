@@ -10,6 +10,14 @@ get "/api/info" do
   response.to_json
 end
 
+get "/api/transactions/:year/:month/:day" do |year, month, day|
+	query = Query.for_month current_user.id, year.to_i, month.to_i, day.to_i
+
+	response = { :opening_balance => query.opening_balance, :transactions => query.transactions }
+
+	return response.to_json
+end
+
 post "/api/user/login" do
   user = authenticate(params[:username], params[:password])
 

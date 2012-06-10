@@ -1,3 +1,12 @@
+
+# Displays the transaction list
+get "/transactions" do
+	@user = current_user
+	haml :"transaction/index"
+end
+
+
+# Register a new transaction
 post "/transaction/new" do
 	transaction = current_user.transfer(params[:at], params[:category], params[:account], params[:amount], params[:vendor], params[:comment])
 
@@ -9,5 +18,5 @@ post "/transaction/new" do
 		flash[:error] = transaction.errors.full_messages.join("<br />")
 	end
 
-	redirect "/"
+	redirect "/transactions"
 end

@@ -1,62 +1,13 @@
-#cnt-transaction
-	#box-transaction-register
-		%form{ :action => "/transaction/new", :method => :post }
-			.box-title
-				Register transaction
-			.box-body
-				
-				%input{ :type => "text", :name => "at" }
-				%select{ :name => "category" }
-					- @user.categories.each do |category|
-						%option{ :value => category.id }
-							= category.name
-				%select{ :name => "account" }
-					- @user.accounts.each do |account|
-						%option{ :value => account.id }
-							= account.name
-				%input{ :type => "text", :name => "vendor" }
-				%input{ :type => "text", :name => "comment" }
-				%input{ :type => "text", :name => "amount" }
-				%input{ :type => "submit" }
-	#box-transaction
+#cnt-home
+	#box-home
 		.box-title
-			Transactions
+			Főoldal
 		.box-body
-			%table.transactions
-				%thead
-					%th
-						ID
-					%th
-						At
-					%th
-						Cat
-					%th
-						Peer
-					%th
-						Comment
-					%th
-						Account
-					%th
-						Amount
-					%th 
-						Subtotal
-				%tbody
-					- @user.transactions.each do |t|
-						%tr
-							%td
-								= t.id
-							%td
-								2012. május
-								\.
-							%td.cat-food
-								= t.category.name
-							%td
-								= t.vendor
-							%td
-								= t.comment
-							%td
-								= t.account.name
-							%td.amount
-								= t.amount
-							%td.subtotal
-								212.230			
+			%a{ :href => '/accounts' }
+				Számlák
+			%a{ :href => '/categories' }
+				Kategóriák
+			%a{ :href => '/transactions' }
+				Tranzakciók
+			%a{ :href => '/user/logout' }
+				Kijelentkezés
