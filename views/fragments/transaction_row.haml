@@ -3,7 +3,7 @@
 		%td
 			= t.id
 		%td
-			2012. május
+			= t.at
 			\.
 		%td.cat-food
 			= t.category.name
@@ -16,4 +16,4 @@
 		%td.amount
 			= t.amount
 		%td.subtotal
-			212.230			
+			= @subtotal += t.amount

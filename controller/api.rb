@@ -13,6 +13,8 @@ end
 get "/api/transactions/:year/:month/:day" do |year, month, day|
 	@query = Query.for_month current_user.id, year.to_i, month.to_i, day.to_i
 
+	@subtotal = @query.opening_balance.to_i
+
 	if render_mode == :static_fragments
 		return haml :'fragments/transaction_row', :layout => :empty
 	elsif render_mode == :dynamic_fragments
