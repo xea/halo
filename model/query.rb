@@ -1,6 +1,18 @@
 
 class Query
 
+	def initialize
+		@params = {}
+	end
+
+	def method_missing(method, *args, &block)
+		if method.to_s =~ /^(.+)=$/
+			@params[method] = args[0]
+		else
+			return @params[method]
+		end
+	end
+
 	attr_accessor :transactions
 	attr_accessor :opening_balance
 	
@@ -21,5 +33,6 @@ class Query
 	def self.opening_balance(user_id, year , month = 1, day = 1)
 		return Transaction.sum(:amount, :conditions => [ 'user_id = ? and at < ? and enabled = ?', user_id,  DateTime.parse("#{year}-#{month}-#{day}"), true ])
 	end
+
 
 end

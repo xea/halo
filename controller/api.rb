@@ -12,11 +12,10 @@ end
 
 get "/api/transactions/:year/:month/:day" do |year, month, day|
 	@query = Query.for_month current_user.id, year.to_i, month.to_i, day.to_i
-
 	@subtotal = @query.opening_balance.to_i
 
 	if render_mode == :static_fragments
-		return haml :'fragments/transaction_row', :layout => :empty
+		return { :year => year.to_i, :month => "%02d" % month.to_i, :content => haml(:'fragments/transaction_row', :layout => :empty) }.to_json
 	elsif render_mode == :dynamic_fragments
 		response = { :opening_balance => query.opening_balance, :transactions => query.transactions }
 		return response.to_json
@@ -24,12 +23,23 @@ get "/api/transactions/:year/:month/:day" do |year, month, day|
 
 end
 
-post "/api/transaction/create" do |at, category, peer, comment, account, amount|
-	response = {}
-	response[:success] = true
-	response[:transaction_id] = 1
+get "/api/transactions/months" do
+	return { :months => current_user.transaction_months }.to_json
+end
 
-	return response.to_json
+post "/api/transaction/create" do
+	transaction = current_user.transfer(params[:at], params[:category], params[:account], params[:amount], params[:peer], params[:comment])
+	
+	if transaction.nil?
+	else
+		year = transaction.at.year
+		month = transaction.at.month
+		day = 1
+		@query = Query.for_month current_user.id, year.to_i, month.to_i, day.to_i
+		@subtotal = @query.opening_balance.to_i
+		
+		return haml :'fragments/transaction_row', :layout => :empty
+	end
 end
 
 post "/api/user/login" do

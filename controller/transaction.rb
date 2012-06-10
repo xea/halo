@@ -2,6 +2,7 @@
 # Displays the transaction list
 get "/transactions" do
 	@user = current_user
+	@months = @user.transactions.collect { |t| t.at.to_s[0..6] }.uniq { |d| d[0..6] }.sort
 	haml :"transaction/index"
 end
 

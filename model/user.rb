@@ -96,4 +96,8 @@ class User
 
 		return cat
 	end
+
+	def transaction_months
+		repository.adapter.select("select substr(at, 1, 7) as a from transactions where user_id = ? group by a order by a asc", self.id)
+	end
 end

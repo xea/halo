@@ -11,12 +11,16 @@ var Halo = {
 		Transactions : {
 		
 			transfer : function(at, category, peer, comment, account, amount) {
-				var result = Halo.Data.transfer(at, category, peer, comment, account, amount);
+				var result = Halo.Data.transfer(at, category, peer, comment, account, amount, function(data) {
+					var date = new Date(at);
+
+					Halo.UI.TransactionPanel.refreshMonth(date.getFullYear(), date.getMonth(), data);
+				});
 
 				Halo.Core.trace("Transaction completed");
 			},
 
-			populate : function(year, month) {
+			refreshMonth : function(year, month) {
 				var currentDate = new Date();
 
 				if (year == null) {
@@ -29,6 +33,26 @@ var Halo = {
 
 				Halo.Data.fetchMonth(year, month, function(data) {
 					Halo.UI.TransactionPanel.refreshMonth(year, month, data);
+				});
+			},
+
+			populate : function() {
+				Halo.Data.listMonths(function(months_result) {
+					for (var idx in months_result.months) {
+						var monthId = months_result.months[idx]
+
+						var year = monthId.split("-")[0];
+						var month = monthId.split("-")[1];
+						
+						Halo.Data.fetchMonth(year, month, function(data) {
+							var year = data.year;
+							var month = data.month;
+							var content = data.content;
+
+							Halo.Core.trace(year + "-" + month);
+							Halo.UI.TransactionPanel.refreshMonth(year, month, content);
+						});
+					}
 				});
 			}
 		}
@@ -161,13 +185,19 @@ var Halo = {
 			
 			append : function(text) {
 				jQuery(Halo.UI.Binding.debugPanel).append(text);
+			},
+
+			toggle : function() {
+				jQuery(Halo.UI.Binding.debugPanel).toggle();
 			}
 		},
 
 		TransactionPanel : {
-			
+
 			refreshMonth : function(year, month, data) {
-				jQuery(Halo.UI.Binding.transactionPanel + " tbody").html(data);
+				var selector = "#tr-" + year + "-" + month + " tbody";
+				Halo.Core.trace(selector);
+				jQuery(selector).html(data);
 			}
 		},
 
@@ -185,6 +215,11 @@ var Halo = {
 	Data : {
 		
 		transfer : function(at, category, peer, comment, account, amount, callback) {
+			return Halo.Net.createTransaction(at, category, peer, comment, account, amount, callback);
+		},
+
+		listMonths : function(callback) {
+			return Halo.Net.listMonths(callback);
 		},
 
 		fetchMonth : function(year, month, callback) {
@@ -217,7 +252,7 @@ var Halo = {
 		},
 
 		ajaxErrorHandler : function(xhr, status) {
-			Halo.Core.trace("AJAX Request: failure");
+			Halo.Core.trace("AJAX Request: failure (" + status + ")");
 		},
 
 		getJSON : function(url, object, callback) {
@@ -240,10 +275,12 @@ var Halo = {
 		getTransactions : function(year, month, callback) {
 			var url = Halo.Net.URL.getTransactions + '/' + year + '/' + month + '/1';
 
-			Halo.Net.getHTML(url, {}, callback);
+			Halo.Net.getJSON(url, {}, callback);
 		},
 
 		createTransaction : function(at, category, peer, comment, account, amount, callback) {
+			var url = Halo.Net.URL.createTransaction;
+
 			var request = {
 				at : at,
 				category : category,
@@ -253,11 +290,19 @@ var Halo = {
 				amount : amount
 			};
 			
-			Halo.Net.postJSON(url, request, callback);
+			Halo.Net.postHTML(url, request, callback);
+		},
+
+		listMonths : function(callback) {
+			var url = Halo.Net.URL.listMonths;
+
+			Halo.Net.getJSON(url, {}, callback);
 		},
 
 		URL : {
-			getTransactions : "/api/transactions"
+			getTransactions : "/api/transactions",
+			createTransaction : "/api/transaction/create",
+			listMonths : "/api/transactions/months"
 		}
 	}
 };
@@ -275,5 +320,6 @@ jQuery.fn.exists = function() {
 jQuery(document).ready(function() {
 	Halo.Core.doBinding();
 	Halo.Core.trace("Application is ready");
+	Halo.Client.Transactions.populate();
 });
 

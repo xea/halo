@@ -22,41 +22,23 @@
 		.box-title
 			Transactions
 		.box-body
-			%table.transactions
-				%thead
-					%th
-						ID
-					%th
-						At
-					%th
-						Cat
-					%th
-						Peer
-					%th
-						Comment
-					%th
-						Account
-					%th
-						Amount
-					%th 
-						Subtotal
-				%tbody
-					- @user.transactions.each do |t|
-						%tr
-							%td
-								= t.id
-							%td
-								2012. május
-								\.
-							%td.cat-food
-								= t.category.name
-							%td
-								= t.vendor
-							%td
-								= t.comment
-							%td
-								= t.account.name
-							%td.amount
-								= t.amount
-							%td.subtotal
-								212.230			
+			- @months.each do |m|
+				%table.transactions{ :id => "tr-#{m}" }
+					%thead
+						%th
+							ID
+						%th
+							At
+						%th
+							Cat
+						%th
+							Peer
+						%th
+							Comment
+						%th
+							Account
+						%th
+							Amount
+						%th 
+							Subtotal
+					%tbody
