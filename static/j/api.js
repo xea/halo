@@ -49,7 +49,6 @@ var Halo = {
 							var month = data.month;
 							var content = data.content;
 
-							Halo.Core.trace(year + "-" + month);
 							Halo.UI.TransactionPanel.refreshMonth(year, month, content);
 						});
 					}
@@ -196,7 +195,6 @@ var Halo = {
 
 			refreshMonth : function(year, month, data) {
 				var selector = "#tr-" + year + "-" + month + " tbody";
-				Halo.Core.trace(selector);
 				jQuery(selector).html(data);
 			}
 		},
