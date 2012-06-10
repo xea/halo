@@ -46,6 +46,7 @@ module Sinatra
 			else
 				logger.info "Authenticated user with id: #{user.id}"
 				session[:user_id] = user.id
+				session[:render_mode] = :static_fragments
 			end
 
 			return user
@@ -68,6 +69,10 @@ module Sinatra
 
 		def current_user_id
 			session[:user_id]
+		end
+
+		def render_mode
+			session[:render_mode]
 		end
 
 	end

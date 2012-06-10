@@ -25,7 +25,7 @@ body
 	margin: 0px
 	background-color: $background-color
 	font-family: ubuntu-light
-	font-size: 24px
+	font-size: 16px
 
 input
 	border: 1px solid #f0f0f0
@@ -33,6 +33,7 @@ input
 .box-title
 	color: #666
 	margin-left: 5px
+	font-size: 24px
 
 .clearer
 	clear: both
@@ -96,10 +97,16 @@ input
 				.subtotal
 					border-top: 4px solid #AB6937
 #debug-panel
-	float: right
-	width: 400px
+	position: absolute
+	top: 0
+	right: 0
+	width: 500px
 	background: #e0e0c0
 	font-size: 12px
+	padding: 5px
+
+	.error-message
+		color: #f33
 
 #status-footer
 	float: right

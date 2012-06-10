@@ -1,22 +1,52 @@
 var Halo = {
 
+	/**
+	 * Client API containing the business functions
+	 */
 	Client : {
 
 		click : function() {
+		},
+
+		Transactions : {
+		
+			transfer : function(at, category, peer, comment, account, amount) {
+				var result = Halo.Data.transfer(at, category, peer, comment, account, amount);
+
+				Halo.Core.trace("Transaction completed");
+			},
+
+			populate : function(year, month) {
+				var currentDate = new Date();
+
+				if (year == null) {
+					year = currentDate.getFullYear();
+				}
+
+				if (month == null) {
+					month = currentDate.getMonth() + 1;
+				}
+
+				Halo.Data.fetchMonth(year, month, function(data) {
+					Halo.UI.TransactionPanel.refreshMonth(year, month, data);
+				});
+			}
 		}
 	},
 
+	/**
+	 * Client configuration object, holding all the configuration parameters
+	 */
 	Configuration : {
 		serverURL : "http://localhost:4567",
-		minimumPollInterval : 2
+		minimumPollInterval : 2,
+		renderMode : "fragments" // fragment, dynamic, static
 	},
 
 	Core : {
-		log : function(message) {
-		},
 
 		trace : function(message) {
-			var date = new Date().toISOString();
+			var date = Halo.Core.getTime();
 			var timestamp = '[' + date + '] ';
 			var text = timestamp + message;
 			var debugMessage = Halo.UI.Builder.debugMessage(text);
@@ -24,7 +54,23 @@ var Halo = {
 		},
 
 		error : function(message) {
-			Halo.Core.trace(message);
+			var date = Halo.Core.getTime();
+			var timestamp = '[' + date + '] ';
+			var text = timestamp + message;
+			var errorMessage = Halo.UI.Builder.errorMessage(text);
+			Halo.UI.DebugPanel.append(errorMessage);
+		},
+
+		getTime : function() {
+			var date = new Date();
+
+			var sHour = Halo.UI.pad(date.getHours(), 2);
+			var sMin = Halo.UI.pad(date.getMinutes(), 2);
+			var sSec = Halo.UI.pad(date.getSeconds(), 2);
+
+			var output = [ sHour, sMin, sSec ].join(":");
+
+			return output;
 		},
 
 		doBinding : function(providedMapping) {
@@ -89,14 +135,20 @@ var Halo = {
 	UI : {
 
 		Binding : {
-			debugPanel : "#debug-panel"
+			debugPanel : "#debug-panel",
+			transactionPanel : "#box-transaction"
 		},
 		
 		Builder : {
 
 			debugMessage : function(text) {
 				return '<br /><span class="debug-message">' + text + '</span>';	
+			},
+
+			errorMessage : function(text) {
+				return '<br /><span class="error-message">' + text + '</span>';
 			}
+
 		},
 
 		Mapping : {
@@ -112,6 +164,13 @@ var Halo = {
 			}
 		},
 
+		TransactionPanel : {
+			
+			refreshMonth : function(year, month, data) {
+				jQuery(Halo.UI.Binding.transactionPanel + " tbody").html(data);
+			}
+		},
+
 		pad : function(number, length) {
 			var str = '' + number;
 
@@ -124,8 +183,12 @@ var Halo = {
 	},
 
 	Data : {
+		
+		transfer : function(at, category, peer, comment, account, amount, callback) {
+		},
 
-		fetchMonth : function(year, month) {
+		fetchMonth : function(year, month, callback) {
+			return Halo.Net.getTransactions(year, month, callback);
 		}
 
 	},
@@ -135,8 +198,16 @@ var Halo = {
 		ajax : function(url, type, dataType, parameters, callback) {
 			Halo.Core.trace("Sending AJAX " + type + " request to " + url);
 
-			var request = jQuery.ajay({ success : callback });
 
+			var query = { 
+				type : type,
+				success : callback,
+				dataType : dataType,
+				data : parameters
+			};
+
+			var request = jQuery.ajax(url, query);
+			
 			request.done(Halo.Net.ajaxSuccessHandler);
 			request.fail(Halo.Net.ajaxErrorHandler);
 		},
@@ -150,17 +221,44 @@ var Halo = {
 		},
 
 		getJSON : function(url, object, callback) {
-			Halo.Net.ajax(Halo.configuration.serverURL + url, "GET", "json", object, callback);
+			Halo.Net.ajax(Halo.Configuration.serverURL + url, "GET", "json", object, callback);
 		},
 
 		postJSON : function(url, object, callback) {
 			Halo.Net.ajax(Halo.Configuration.serverURL + url, "POST", "json", object, callback);
 		},
 
-		getTransactions : function(year, month) {
-			
+
+		getHTML : function(url, object, callback) {
+			Halo.Net.ajax(Halo.Configuration.serverURL + url, "GET", "html", object, callback);
 		},
 
+		postHTML : function(url, object, callback) {
+			Halo.Net.ajax(Halo.Configuration.serverURL + url, "POST", "html", object, callback);
+		},
+
+		getTransactions : function(year, month, callback) {
+			var url = Halo.Net.URL.getTransactions + '/' + year + '/' + month + '/1';
+
+			Halo.Net.getHTML(url, {}, callback);
+		},
+
+		createTransaction : function(at, category, peer, comment, account, amount, callback) {
+			var request = {
+				at : at,
+				category : category,
+				peer : peer,
+				comment : comment,
+				account : account,
+				amount : amount
+			};
+			
+			Halo.Net.postJSON(url, request, callback);
+		},
+
+		URL : {
+			getTransactions : "/api/transactions"
+		}
 	}
 };
 
