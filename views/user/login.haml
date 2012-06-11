@@ -6,13 +6,18 @@
 			.box-body
 				.errors
 					= flash[:error]
-				%label{ :for => "username" }
-					Felhasználónév
-				%input{ :type => "text", :id => "username", :name => "username" }
-				%label{ :for => "password" }
-					Jelszó
-				%input{ :type => "password", :id=> "password", :name => "password" }
-				.clearer
+
+				.box-input
+					%span.icon-user
+						&nbsp;
+					%input{ :type => "text", :id => "username", :name => "username", :placeholder => "Username" }
+		
+					.input-separator
+
+					%span.icon-pwd
+						&nbsp;
+					%input{ :type => "password", :id=> "password", :name => "password", :placeholder => "Password" }
+					.clearer
 				.lower
 					%input{ :type => "submit", :id=>"submit_login", :value => 'Belépés' }
 				.clearer

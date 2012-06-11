@@ -16,7 +16,7 @@ end
 
 # Displays the user page
 get "/user/login" do
-  haml :"user/login"
+  haml :"user/login", :layout => :layout_singlepanel
 end
 
 # Attempts to authenticate the current user and assign it to the current session

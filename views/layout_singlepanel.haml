@@ -1,0 +1,13 @@
+!!! XML
+!!! Strict
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+	%head
+		%title
+			Halo Login
+		%script{ :type => 'text/javascript', :src => '/j/jquery-1.7.2.min.js' }
+		%script{ :type => 'text/javascript', :src => '/j/login.js' }
+		%link{ :rel => :stylesheet, :href => '/c/fonts' }
+		%link{ :rel => :stylesheet, :href => '/c/login' }
+	%body
+		#application
+			= yield
