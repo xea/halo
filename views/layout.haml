@@ -7,13 +7,36 @@
 		%script{ :type => 'text/javascript', :src => '/j/jquery-1.7.2.min.js' }
 		%script{ :type => 'text/javascript', :src => '/j/api.js' }
 		%link{ :rel => :stylesheet, :href => '/c/fonts' }
-		%link{ :rel => :stylesheet, :href => '/c/main' }
+		%link{ :rel => :stylesheet, :href => '/c/main2' }
 	%body
+		#header
+			%span.static
+				Welcome
+			%span.dynamic
+				= current_user.display_name
+		#menu
+			%ul
+				%li
+					%a{ :href => '/' }
+						.tab.icon-home-200
+				%li
+					%a{ :href => '/transactions' }
+						.tab.icon-transactions-200
+				%li
+					%a{ :href => '/settings' }
+						.tab.icon-settings-200
+				%li
+					%a{ :href => '/accounts' }
+						.tab.icon-accounts-200
+				%li
+					%a{ :href => '/categories' }
+						.tab.icon-categories-200
+				%li
+					%a{ :href => '/user/logout' }
+						.tab.icon-logout-200
 		#application
 			= yield
+		.clearer
 		#debug-panel
 			%b
 				Debug messages
-		.clearer
-		#status-footer
-			Halo personal saving and investment management engine 2012
