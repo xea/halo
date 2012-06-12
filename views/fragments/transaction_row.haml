@@ -1,18 +1,19 @@
 - @query.transactions.each do |t|
-	%tr
-		%td
-			= t.id
-		%td
-			= t.at
-		%td.cat-food
-			= t.category.name
-		%td
+	%tr.transaction-row
+		%td.tr-cat.icon-food-150
+			%span
+				&nbsp;
+		- if t.amount >= 0
+			%td.tr-amount.positive
+				= t.amount
+		- else
+			%td.tr-amount.negative
+				= t.amount
+		%td.tr-vendor
 			= t.vendor
-		%td
+		%td.tr-comment
 			= t.comment
-		%td
+		%td.tr-account
 			= t.account.name
-		%td.amount
-			= t.amount
-		%td.subtotal
+		%td.tr-subtotal
 			= @subtotal += t.amount
