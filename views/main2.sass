@@ -1,0 +1,117 @@
+$bg-color: #e6e7e9
+
+body
+	background-color: $bg-color
+	margin: 0px
+	padding: 0px
+	font-family: ubuntu-light
+
+#header
+	height: 25px
+	background: -moz-linear-gradient(#64636f, #403f4a)
+	background: -webkit-linear-gradient(#64636f, #403f4a)
+	border-bottom: 2px solid #5d5c66
+	font-family: Verdana
+	font-size: 12px
+	padding-top: 10px
+	padding-left: 30px
+
+	.static
+		color: #e9e9ea
+	.dynamic
+		color: #0cb1ee
+	
+#application
+	margin-top: 30px
+
+#menu
+	float: left
+	padding-left: 30px
+
+	ul
+		margin: 0
+		padding: 0
+		li
+			border-bottom: 1px solid #cecfd0
+			list-style-type: none
+			text-align: center
+			a
+				text-decoration: none
+				font-size: 12px
+				&:hover,&:visited,&:active
+					color: #000
+				.tab
+					height: 100px
+					width: 100px
+			&.selected
+				background: #f0f1f2
+				box-shadow: -2px 0px 8px #CACACA, 38px 0px -39px 39px #F0F1F2
+				z-index: 1
+
+
+#module
+	float: left
+	background: #f0f1f2
+	box-shadow: -4px 0px 10px #ccc
+	min-height: 600px
+	padding: 30px
+	z-index: 0
+
+	.transactions
+		width: 600px
+		color: #6d6e76
+		border-collapse: collapse
+		thead
+			text-align: left
+			th
+				padding-top: 10px
+				padding-bottom: 10px
+		tbody
+			font-family: ubuntu
+			font-size: 16px
+			.tr-id
+				width: 30px
+			.tr-at
+				width: 100px
+			.tr-cat
+				width: 50px
+			.tr-vendor
+				width: 100px
+			.tr-comment
+				width: 100px
+			.tr-amount
+				width: 80px
+				text-align: right
+				&.negative
+					border-top: 4px solid #e45263
+				&.positive
+					border-top: 4px solid #5eae44
+			.tr-subtotal
+				width: 80px
+			td
+				padding-top: 3px
+				padding-bottom: 3px
+				border-top: 4px solid #f0f1f2
+
+#footer
+	float: right
+
+#debug-panel
+	display: none
+
+.icon-home-200
+	background: url('/g/mimi-icons-200.png') -490px 10px no-repeat
+.icon-transactions-200
+	background: url('/g/mimi-icons-200.png') -390px -220px no-repeat
+.icon-accounts-200
+	background: url('/g/mimi-icons-200.png') -390px -650px no-repeat
+.icon-categories-200
+	background: url('/g/mimi-icons-200.png') -290px -220px no-repeat
+.icon-logout-200
+	background: url('/g/mimi-icons-200.png') -290px -750px no-repeat
+.icon-settings-200
+	background: url('/g/mimi-icons-200.png') -190px -220px no-repeat
+
+.icon-food-150
+	background: url('/g/mimi-icons-150.png') -17px -588px no-repeat
+
