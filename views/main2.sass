@@ -23,19 +23,23 @@ body
 	
 #application
 	margin-top: 30px
+	position: relative
 
 #menu
 	float: left
 	padding-left: 30px
+	position: absolute
+	z-index: 1
 
 	ul
 		margin: 0
 		padding: 0
 		li
-			border-bottom: 1px solid #cecfd0
 			list-style-type: none
 			text-align: center
+			padding-right: 20px
 			a
+				border-bottom: 1px solid #cecfd0
 				text-decoration: none
 				font-size: 12px
 				&:hover,&:visited,&:active
@@ -45,7 +49,8 @@ body
 					width: 100px
 			&.selected
 				background: #f0f1f2
-				box-shadow: -2px 0px 8px #CACACA, 38px 0px -39px 39px #F0F1F2
+				box-shadow: -6px 0px 9px 0px #CACACA, 20px 0px -39px 26px #F0F1F2
+				border-radius: 5px
 				z-index: 1
 
 
@@ -54,8 +59,18 @@ body
 	background: #f0f1f2
 	box-shadow: -4px 0px 10px #ccc
 	min-height: 600px
+	min-width: 600px
+	width: 80%
 	padding: 30px
+	border-radius: 5px
 	z-index: 0
+	position: absolute
+	margin-left: 130px
+
+	.box-body
+		background-color: #eaebec
+		border: 1px solid #dddedf
+		padding: 5px
 
 	.transactions
 		width: 600px
@@ -69,6 +84,11 @@ body
 		tbody
 			font-family: ubuntu
 			font-size: 16px
+			tr.transaction-group-header
+				td
+					background: -moz-linear-gradient(#eaebec,#dfdfdf)
+					background: -webkit-linear-gradient(#f0f0f0,#dfdfdf)
+					border-radius: 5px
 			.tr-id
 				width: 30px
 			.tr-at
@@ -83,21 +103,43 @@ body
 				width: 80px
 				text-align: right
 				&.negative
-					border-top: 4px solid #e45263
 				&.positive
-					border-top: 4px solid #5eae44
 			.tr-subtotal
 				width: 80px
-			td
-				padding-top: 3px
-				padding-bottom: 3px
-				border-top: 4px solid #f0f1f2
+				text-align: right
+			tr
+				&.future
+					background-color: #ddd
+				&:hover
+					background-color: #f0f1f2
+				td
+					padding-top: 3px
+					padding-bottom: 3px
+				a
+					text-decoration: none
+				.tr-toggle
+					background: url('/g/mimi-icons-100.png') -60px -285px no-repeat
+				&[transaction-enabled='true']
+					.tr-toggle
+						background: url('/g/mimi-icons-100.png') -110px -285px no-repeat
 
 #footer
-	float: right
+	bottom: 0
+	background: #000
 
 #debug-panel
-	display: none
+	display: block
+	z-index: 33
+	position: absolute
+	right: 0
+	font-size: 12px
+
+.charts
+	width: 400px
+	height: 400px
+
+.block-20
+	width: 20px
 
 .icon-home-200
 	background: url('/g/mimi-icons-200.png') -490px 10px no-repeat
@@ -115,3 +157,9 @@ body
 .icon-food-150
 	background: url('/g/mimi-icons-150.png') -17px -588px no-repeat
 
+.icon-delete-100
+	background: url('/g/mimi-icons-100.png') -10px -285px no-repeat
+.icon-enabled-100
+	background: url('/g/mimi-icons-100.png') -110px -285px no-repeat
+.icon-disabled-100
+	background: url('/g/mimi-icons-100.png') -60px -285px no-repeat

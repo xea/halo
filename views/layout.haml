@@ -5,7 +5,11 @@
 		%title
 			Sitebuild area
 		%script{ :type => 'text/javascript', :src => '/j/jquery-1.7.2.min.js' }
-		%script{ :type => 'text/javascript', :src => '/j/api.js' }
+		%script{ :type => 'text/javascript', :src => '/j/highcharts.js' }
+		%script{ :type => 'text/javascript', :src => '/j/halo-core.js' }
+		%script{ :type => 'text/javascript', :src => '/j/halo-ui.js' }
+		%script{ :type => 'text/javascript', :src => '/j/halo-net.js' }
+		%script{ :type => 'text/javascript', :src => '/j/halo-client.js' }
 		%link{ :rel => :stylesheet, :href => '/c/fonts' }
 		%link{ :rel => :stylesheet, :href => '/c/main2' }
 	%body
@@ -17,13 +21,13 @@
 		#application
 			#menu
 				%ul
-					%li
+					%li.selected
 						%a{ :href => '/' }
 							.tab.icon-home-200
 					%li
 						%a{ :href => '/transactions' }
 							.tab.icon-transactions-200
-					%li.selected
+					%li
 						%a{ :href => '/settings' }
 							.tab.icon-settings-200
 					%li

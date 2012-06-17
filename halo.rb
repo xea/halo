@@ -75,6 +75,10 @@ module Sinatra
 			session[:render_mode]
 		end
 
+		def number_format(n)
+			n.to_s.reverse.gsub(/...(?=.)/,'\& ').reverse
+		end 
+		
 	end
 
 	helpers Halo

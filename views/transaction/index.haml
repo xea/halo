@@ -5,7 +5,7 @@
 				Register transaction
 			.box-body
 				
-				%input{ :type => "text", :name => "at" }
+				%input{ :type => "text", :name => "at", :placeholder => "2012-01-01 11:00" }
 				%select{ :name => "category" }
 					- @user.categories.each do |category|
 						%option{ :value => category.id }
@@ -14,9 +14,9 @@
 					- @user.accounts.each do |account|
 						%option{ :value => account.id }
 							= account.name
-				%input{ :type => "text", :name => "vendor" }
-				%input{ :type => "text", :name => "comment" }
-				%input{ :type => "text", :name => "amount" }
+				%input{ :type => "text", :name => "vendor", :placeholder => "vendor" }
+				%input{ :type => "text", :name => "comment", :placeholder => "comment" }
+				%input{ :type => "text", :name => "amount", :placeholder => "amount" }
 				%input{ :type => "submit" }
 	#box-transaction
 		.box-title
@@ -25,16 +25,17 @@
 			- @months.each do |m|
 				%table.transactions{ :id => "tr-#{m}" }
 					%thead
-						%th
-							Cat
-						%th
-							Amount
-						%th
-							Peer
-						%th
-							Comment
-						%th
-							Account
-						%th 
-							Subtotal
+						%tr
+							%th
+								Cat
+							%th
+								Amount
+							%th
+								Peer
+							%th
+								Comment
+							%th
+								Account
+							%th 
+								Subtotal
 					%tbody

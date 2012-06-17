@@ -13,6 +13,7 @@ class Query
 		end
 	end
 
+	attr_accessor :description
 	attr_accessor :transactions
 	attr_accessor :opening_balance
 	
@@ -25,6 +26,8 @@ class Query
 		query = Query.new
 		query.transactions = transactions
 		query.opening_balance = opening_balance(user_id, year, month, day)
+
+		query.description = "#{year} #{month}"
 		
 		return query
 	end

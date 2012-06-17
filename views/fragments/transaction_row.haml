@@ -1,14 +1,17 @@
+%tr.transaction-group-header
+	%td{ :colspan => '8' }
+		= @query.description
 - @query.transactions.each do |t|
-	%tr.transaction-row
+	%tr.transaction-row{ :class => "#{'future' if t.future?}", :'transaction-enabled' => t.enabled.to_s, :'transaction-id' => t.id }
 		%td.tr-cat.icon-food-150
 			%span
 				&nbsp;
 		- if t.amount >= 0
 			%td.tr-amount.positive
-				= t.amount
+				= number_format t.amount.to_i
 		- else
 			%td.tr-amount.negative
-				= t.amount
+				= number_format t.amount.to_i
 		%td.tr-vendor
 			= t.vendor
 		%td.tr-comment
@@ -16,4 +19,14 @@
 		%td.tr-account
 			= t.account.name
 		%td.tr-subtotal
-			= @subtotal += t.amount
+			- @subtotal += t.amount
+			= number_format @subtotal.to_i
+		%td.icon-delete-100
+			%a.delete-transaction{ :href=> "##{t.id}" }
+				.block-20{ :target => t.id }
+					&nbsp;
+		%td.tr-toggle
+			%a.toggle-transaction{ :href => "##{t.id}" }
+				.block-20{ :target => t.id }
+					&nbsp;
+

@@ -42,6 +42,40 @@ post "/api/transaction/create" do
 	end
 end
 
+post "/api/transactions/toggle" do
+	transaction = Transaction.first(:'user.id' => current_user_id, :id => params[:transactionId].to_i)
+
+	response = { :success => false}
+
+	if transaction.nil?
+	else
+		transaction.enabled = !transaction.enabled
+
+		transaction.save if transaction.valid?
+
+		response[:success] = true
+		response[:transaction_id] = transaction.id
+		response[:enabled] = transaction.enabled
+	end
+
+	return response.to_json
+end
+
+post "/api/transactions/remove" do 
+	trs = current_user.transactions.find_all { |t| t.id == params[:transactionId].to_i }
+
+	response = { :success => false }
+
+	if trs.length > 0
+		trs.each { |t| t.destroy }
+
+		response[:success] = true
+		response[:transaction_id] = params[:transactionId]
+	end
+
+	return response.to_json
+end
+
 post "/api/user/login" do
 	user = authenticate(params[:username], params[:password])
 
