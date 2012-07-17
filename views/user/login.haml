@@ -4,9 +4,11 @@
 			.box-title
 				Belépés
 			.box-body
-				.errors
+				.errors{ :style => "display: #{flash[:error].to_s.length > 0 ? 'block' : 'none' }" }
 					= flash[:error]
 
+				.info{ :style => "display: #{flash[:notice].to_s.length > 0 ? 'block' : 'none' }" }
+					= flash[:notice]
 				.box-input
 					%span.icon-user
 						&nbsp;

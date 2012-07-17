@@ -38,13 +38,17 @@ module Sinatra
 
 		# Makes an attempt to authenticate the current user with the given credentials
 		def authenticate!(username, password)
-			user = User.find_user(username, password)
+			user = User.find_user(username)
 
 			if user.nil?
-				flash[:error] = "User not found!"
 				logger.warn "Invalid authentication attempt with username: #{username}"
+			elsif user.password? password
+				user.update(:login_count => user.login_count + 1)
+				session[:user_id] = user.id
+				session[:render_mode] = :static_fragments
 			else
 				logger.info "Authenticated user with id: #{user.id}"
+				user.update(:login_count => 0)
 				session[:user_id] = user.id
 				session[:render_mode] = :static_fragments
 			end
@@ -64,7 +68,16 @@ module Sinatra
 
 		# Returns the user object assigned to the current session
 		def current_user
-			User.first(:id => current_user_id)
+			user = User.first(:id => current_user_id)
+
+			if user.nil?
+				user = User.new
+				user.name = ""
+				user.display_name = "Anonymous"
+				user.id = -1
+			end
+
+			return user
 		end
 
 		def current_user_id
@@ -126,3 +139,6 @@ get '/init' do
 
 end
 
+get '/sitebuild' do
+	haml :'/sitebuild/index', :layout => :layout_sb
+end

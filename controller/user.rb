@@ -1,17 +1,21 @@
 # Display user registration form
 get "/user/register" do
-  haml :"user/register"
+  haml :"user/register", :layout => :layout_singlepanel
 end
 
 # Registers a new user
 post "/user/register" do
-	user = User.register(params[:username], params[:displayname], params[:password])
+	user = User.register(params[:username], params[:displayname], params[:password], params[:password_confirmation])
 
-	flash[:error] = user.errors.full_messages.join('<br/>') unless user.valid?
+	if user.valid?
+		flash[:notice] = "Registration successful"
+	else
+		flash[:error] = user.errors.full_messages.join('<br/>') 
+	end
 
 	redirect to '/user/login' if user.valid?
 
-	haml :'user/register'
+	haml :'user/register', :layout => :layout_singlepanel
 end
 
 # Displays the user page
@@ -23,11 +27,16 @@ end
 post "/user/login" do
   user = authenticate!(params[:username], params[:password])
 
-  flash[:error] = "Authentication failed" unless authenticated?
+  if user.nil?
+	  flash[:error] = "Authentication failed" 
+  elsif authenticated?
+	  redirect to '/' 
+  else
+	  flash[:error] = "Authentication failed" 
+  end
 
-  redirect to '/' if authenticated?
 
-  haml :'/user/login'
+  haml :'/user/login', :layout => :layout_singlepanel
 end
 
 # Logs out the current user

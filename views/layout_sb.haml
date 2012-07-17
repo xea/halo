@@ -1,0 +1,102 @@
+!!! 5
+%html
+	%head
+		%title
+			Sitebuild area
+		%script{ :type => 'text/javascript', :src => '/j/jquery-1.7.2.min.js' }
+		%link{ :rel => :stylesheet, :href => '/c/fonts' }
+		%link{ :rel => :stylesheet, :href => '/c/main3' }
+	%body
+		#header
+			Application header
+			.handle
+				Header handle
+		#application
+			.overlay
+				#live-notifications
+					.notification.first
+						.title
+							A regisztráció sikeres volt
+						Most már beléphet az új felhasználóval
+					.notification
+						.title
+							Értesítést küldtünk
+						Ellenőrizze az e-mailjeit!
+			.frame
+				.dialog.float-left
+					%h3
+						Bejelentkezés
+					.body
+						.notification
+							Értesítés
+						.alert
+							Hiba történt!
+						.success
+							Sikeres volt
+						.form
+							%input{ :type => :text, :placeholder => 'Felhasználónév' }
+							.separator
+							%input{ :type => :password, :placeholder => 'Jelszó' }
+							.separator
+							%input{ :type => :submit }
+							%button
+								Button
+					.footer
+						A felhasználónév és a jelszó kis- és nagybetűérzékenyek!
+				.dialog.float-left
+					%h3
+						Regisztráció
+					.body
+						.notification
+							Értesítés
+						.alert
+							Hiba történt!
+						.success
+							Sikeres volt
+						.form
+							%input{ :type => :text, :placeholder => 'Felhasználónév' }
+							.separator
+							%input{ :type => :text, :placeholder => 'E-mail cím' }
+							.separator
+							%input{ :type => :password, :placeholder => 'Jelszó' }
+							.separator
+							%input{ :type => :password, :placeholder => 'Jelszó megerősítés' }
+							.separator
+							%input{ :type => :submit }
+					.footer
+						A felhasználónév és a jelszó kis- és nagybetűérzékenyek!
+
+			.clearer
+			.frame
+				.panel
+					%h3
+						Accounts
+					%h4
+						List of active accounts
+					.panel-content
+						.accounts
+							- (0..4).each do |i|
+								.account.bubble
+									%span.name
+										= "Account #{i}"
+									%span.balance
+										= "#{rand 500000} €"
+									%span.description
+										= "This is the description of account #{i}"
+			.frame
+				.panel
+					%h3
+						Categories
+					%h4
+						User assigned categories
+					.panel-content
+			.frame
+				.panel
+					%h3
+						Tranzakciók
+					%h4
+						2012. Július
+					.panel-content
+
+		#footer
+

@@ -4,23 +4,18 @@
 			.box-title
 				Regisztráció
 			.box-body
-				.errors
+				.errors{ :style => "display: #{flash[:error].to_s.length > 0 ? 'block' : 'none' }" }
 					= flash[:error]
-				%label{ :for => "username" }
-					Felhasználónév
-				%input{ :type => "text", :id => "username", :name => "username" }
 
-				%label{ :for => "displayname" }
-					Megjelenítendő név
-				%input{ :type => "text", :id => "displayname", :name => "displayname" }
-
-				%label{ :for => "password" }
-					Jelszó
-				%input{ :type => "password", :id => "password", :name => "password" }
-
-				%label{ :for => "password_confirmation" }
-					Jelszó még egyszer
-				%input{ :type => "password", :id => "password_confirmation", :name => "password_confirmation" }
-
+				.info{ :style => "display: #{flash[:notice].to_s.length > 0 ? 'block' : 'none' }" }
+					= flash[:notice]
+				.box-input
+					%input{ :type => "text", :id => "username", :name => "username", :placeholder => "Felhasználónév" }
+					.input-separator
+					%input{ :type => "text", :id => "displayname", :name => "displayname", :placeholder => "Megjelenített név" }
+					.input-separator
+					%input{ :type => "password", :id => "password", :name => "password", :placeholder => "Jelszó" }
+					.input-separator
+					%input{ :type => "password", :id => "password_confirmation", :name => "password_confirmation", :placeholder => "Jelszó még egyszer" }
 				.lower
 					%input{ :type => "submit", :id=>"submit_registration", :value => 'Elküld' }

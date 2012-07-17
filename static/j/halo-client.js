@@ -27,7 +27,7 @@ Halo.Client = {
 				Halo.UI.TransactionPanel.toggle(id);
 			});
 		},
-		
+
 		remove : function(id) {
 			var result = Halo.Data.removeTransaction(id, function(data) {
 				Halo.UI.TransactionPanel.remove(id);

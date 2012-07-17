@@ -11,13 +11,26 @@ class User
 	property :display_name, String
 	property :password_hash, String, :length => 64
 
+	property :login_count, Integer, :default => 0
+
 	has n, :accounts
 	has n, :transactions
 	has n, :categories
 
+	validates_confirmation_of :password_hash
+
+	attr_accessor :password_hash_confirmation
+
 	# Returns the first user which matches to the given username and password arguments
-	def self.find_user(username, password)
-		user = User.first(:name => username, :password_hash => User.calculate_hash(password))
+	def self.find_user(username, password = nil)
+		user = nil
+
+		if password.nil?
+			user = User.first(:name => username)
+		else
+			user = User.first(:name => username, :password_hash => User.calculate_hash(password)) if !password.nil?
+		end
+
 		return user
 	end
 
@@ -37,11 +50,12 @@ class User
 	end
 
 	# Registers a new user
-	def self.register(username, display_name, password)
+	def self.register(username, display_name, password, password_cnf)
 		user = User.new
 		user.name = username.to_s
 		user.display_name = display_name.to_s
 		user.password_hash = User.calculate_hash(password)
+		user.password_hash_confirmation = User.calculate_hash(password_cnf)
 
 		if user.valid?
 			user.save!
