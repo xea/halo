@@ -126,6 +126,7 @@ body
 		z-index: 99
 
 		#live-notifications
+			z-index: 99
 			position: fixed
 			top: 120px
 			left: 50%
@@ -138,7 +139,7 @@ body
 				border-bottom: 1px solid #ccc
 				text-shadow: #fff 0px 1px 0px
 				padding: 10px
-				-webkit-animation-duration: 1.4s
+				-webkit-animation-duration: 0.4s
 				-webkit-animation-name: fadein
 				&.first
 					box-shadow: white 0px 1px 0px
@@ -168,8 +169,10 @@ body
 .frame
 	margin: 20px
 
-@keyframes fadein
+@-webkit-keyframes fadein
 	from
-		background-color: #fff
+		opacity: 0
+		-webkit-transform: translateX(-60px)
 	to
-		background-color: #000
+		opacity: 1
+		-webkit-transform: translateX(0)
